@@ -12,8 +12,11 @@ local completely_delete = CTDmod.lib.recipe.completely_delete
 local modify = CTDmod.lib.recipe.modify
 local set_energy_required = CTDmod.lib.recipe.set_energy_required
 -- ##############################################################################################
---- добавление угля в рецепт патронов для дробовика
+-- ДОБАВЛЕНИЕ УГЛЯ В РЕЦЕПТ ПАТРОНОВ ДЛЯ ДРОБОВИКА
+-- ##############################################################################################
 add_ingredient_at_position("shotgun-shell", "coal", 1)
+-- ##############################################################################################
+-- УДАЛЕНИЕ И ЗАМЕНА УГЛЕРОДА ОТ БОБА НА ВАНИЛЬНЫЙ УГЛЕРОД
 -- ##############################################################################################
 if mods ["bobplates"] and mods ["space-age"] then
     replace_ingredient_everywhere("bob-carbon", "carbon")
@@ -51,6 +54,8 @@ if mods ["bobplates"] and mods ["space-age"] then
 end
 modify("carbon", {results = {{type = "item", name = "carbon", amount = 4}}})
 -- ##############################################################################################
+
+-- ##############################################################################################
 if mods ["boblogistics"] then
     if mods ["aai-loaders-electric"] and mods ["aai-industry"] then
           modify("aai-basic-loader", {category = "crafting"})
@@ -70,6 +75,8 @@ if mods ["boblogistics"] then
     end
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 replace_ingredient("stone-furnace", "stone", {name = "stone-brick", amount = 3})
 if mods ["bobplates"] then
     replace_ingredient("bob-stone-mixing-furnace", "stone", {name = "stone-brick", amount = 3})
@@ -82,7 +89,11 @@ if mods ["bobplates"] then
     end
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 replace_ingredient("gun-turret", "iron-plate", {name = "submachine-gun", amount = 1})
+-- ##############################################################################################
+
 -- ##############################################################################################
 if mods ["aai-industry"] then
     add_ingredient("logistic-science-pack", {"automation-science-pack", 2})
@@ -91,6 +102,8 @@ if mods ["aai-industry"] then
         replace_ingredient("lab", "bob-basic-circuit-board", "electronic-circuit")
     end
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 if mods ["bobelectronics"] then
     replace_ingredient("automation-science-pack", "copper-plate", "bob-basic-circuit-board")
@@ -117,11 +130,14 @@ if mods ["bobelectronics"] then
         }
     })
 end
+-- ##############################################################################################
 
 -- ##############################################################################################
 if mods ["bobplates"] and mods ["boblogistics"] and mods ["aai-industry"] then
     replace_ingredient("long-handed-inserter", "iron-plate", "bob-bronze-alloy")
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 if mods ["large-storage-tank"] then
     add_ingredient("large-storage-tank", {"pipe", 8})
@@ -140,9 +156,8 @@ if mods ["bobwarfare"] and mods ["bobplates"] then
     add_ingredient("bob-sniper-turret-1", "bob-sniper-rifle")
 end
 -- ##############################################################################################
-
+-- ЗАМЕНА ВАНИЛЬНОЙ ДРЕВЕСИНЫ НА ДЕРЕВО ПРИ МАЙНИНГЕ
 -- ##############################################################################################
---- Замена ванильной "Древесины" на "Дерево" при рубке деревьев:
 if settings.startup["CTD-new-tree-recipes"].value then
     local excluded_trees_list = { -- исключенные из обработки деревья
         "dead-dry-hairy-tree",

@@ -7,6 +7,8 @@ local assembler = data.raw["assembling-machine"]
 local radar = data.raw["radar"]
 local pump = data.raw["offshore-pump"]
 -- ##############################################################################################
+
+-- ##############################################################################################
 if settings.startup["CTD-efficiency"].value == "standard" then
 	-- КПД паровых движков
 	generator["steam-engine"].effectivity = 0.7
@@ -39,6 +41,7 @@ if settings.startup["CTD-efficiency"].value == "standard" then
 		generator["bob-hydrazine-generator"].effectivity = 0.9
 	end
 end
+-- ##############################################################################################
 if settings.startup["CTD-efficiency"].value == "hardcore" then
 	-- КПД паровых движков
 	generator["steam-engine"].effectivity = 0.25
@@ -71,6 +74,8 @@ if settings.startup["CTD-efficiency"].value == "hardcore" then
 	end
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- увеличение потребления эл.энергии радарами х3
 radar["radar"].energy_usage = "900kW"
 
@@ -81,11 +86,15 @@ if mods ["bobwarfare"] then
 	radar["bob-radar-5"].energy_usage = "2.7MW"
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 -- reactor["burner-reactor"].energy_source.effectivity = 0.75
 -- reactor["burner-reactor-2"].energy_source.effectivity = 0.85
 
 -- reactor["fluid-reactor"].energy_source.effectivity = 0.8
 -- reactor["fluid-reactor-2"].energy_source.effectivity = 0.9
+-- ##############################################################################################
+
 -- ##############################################################################################
 -- 	reactor["burner-reactor"].energy_source.effectivity = 0.75
 -- 	reactor["burner-reactor-2"].energy_source.effectivity = 0.87

@@ -38,9 +38,13 @@ if mods ["StorageTank2_2_0"] then
 	add_dependency("adv-fluid-storage", "chemical-science-pack")
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 if mods ["Repair_Turret"] then
 	add_dependency("repair-turret", "CTD-science-pack-green")
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 if raw_tech["CTD-electronics"] then
 	if mods ["bobelectronics"] and mods ["aai-industry"] then
@@ -49,11 +53,15 @@ if raw_tech["CTD-electronics"] then
     replace_or_remove_dependencies("electronics", "CTD-electronics")
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 if mods ["Smart_Inserters"] and mods ["aai-industry"] then
 	mass_add_dependencies("si-unlock-cross", {"automation", "CTD-burner-mechanics"})
 	mass_add_dependencies("si-unlock-offsets", {"automation", "CTD-burner-mechanics"})
 	completely_delete("bob-long-inserters-1")
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 if mods ["aai-industry"] then
 	replace_dependency("CTD-fuel-processing","CTD-science-pack-grey", "flammables")
@@ -97,9 +105,13 @@ if mods ["aai-industry"] then
 	end
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 if mods ["boblogistics"] then
 	add_dependency("inserter-stack-size-bonus-2", "chemical-science-pack")
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 if mods ["aai-industry"] then
 	data:extend
