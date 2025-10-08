@@ -2,28 +2,6 @@
 local item_sounds = require("__base__.prototypes.item_sounds")
 local item_tints = require("__base__.prototypes.item-tints")
 -- ##############################################################################################
--- Создаем подгруппу для виртуальных сигналов если ее нет
-if not data.raw["item-subgroup"]["virtual-signal"] then
-    data:extend({
-        {
-            type = "item-subgroup",
-            name = "virtual-signal",
-            group = "production", -- Используем существующую группу
-            order = "zz"
-        }
-    })
-end
-data:extend(
-    {
-        {
-			type = "item-subgroup",
-			name = "CTD-raw",
-			group = "intermediate-products",
-			order = "a[CTD-raw]"
-		},
-    }
-)
--- ##############################################################################################
 
 -- ##############################################################################################
 if settings.startup["CTD-new-tree-recipes"].value then
@@ -106,4 +84,9 @@ for _, color in ipairs(science_pack_colors) do
         }
     })
 end
+-- ##############################################################################################
+
+-- ##############################################################################################
+require("new.ore-crusher")                      -- дробилки руды
+require("new.crushed-stone")                    -- Щебень
 -- ##############################################################################################

@@ -11,6 +11,8 @@ local completely_remove = CTDmod.lib.recipe.completely_remove
 local completely_delete = CTDmod.lib.recipe.completely_delete
 local modify = CTDmod.lib.recipe.modify
 local set_energy_required = CTDmod.lib.recipe.set_energy_required
+local item = data.raw.item
+local recipe = data.raw.recipe
 -- ##############################################################################################
 -- ДОБАВЛЕНИЕ УГЛЯ В РЕЦЕПТ ПАТРОНОВ ДЛЯ ДРОБОВИКА
 -- ##############################################################################################
@@ -53,6 +55,13 @@ if mods ["bobplates"] and mods ["space-age"] then
     completely_remove("bob-carbon")
 end
 modify("carbon", {results = {{type = "item", name = "carbon", amount = 4}}})
+-- ##############################################################################################
+
+-- ##############################################################################################
+if item["sand"] and recipe["sand"] then
+    recipe["sand"].category = "CTD-ore-refining-t1"
+    replace_ingredient("sand", "stone", "CTD-crushed-stone")
+end
 -- ##############################################################################################
 
 -- ##############################################################################################

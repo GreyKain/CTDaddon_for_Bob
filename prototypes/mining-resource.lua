@@ -4,8 +4,8 @@ local chance = 0.15
 
 -- ##############################################################################################
 local mining_config = {
-    disable_generation = {"stone"},  -- Отключаем генерацию
-    remove_recipes = {"stone"},      -- Удаляем рецепты добычи
+    disable_generation = {"stone"},             -- Отключаем генерацию
+    remove_recipes = {"stone"},                 -- Удаляем рецепты добычи
 
     byproducts = {
         ["iron-ore"] = {

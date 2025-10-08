@@ -1,6 +1,7 @@
 -- ##############################################################################################
-require("music.music")
-require("recipes.recipes-data")
-require("items.items-data")
-require("character-settings")
+require("mining-resource")
+require("items.items-data-final-fix")
+require("technology.technology-data-final-fixes")
+require("recipes.recipes-data-final-fixes")
+require("energy")
 -- ##############################################################################################

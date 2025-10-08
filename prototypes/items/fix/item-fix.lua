@@ -2,7 +2,9 @@
 local ammo = data.raw["ammo"]
 local turret = data.raw["ammo-turret"]
 -- ##############################################################################################
--- ЕМКОСТЬ ОБОИМЫ 10 --> 30
-ammo["firearm-magazine"].magazine_size = 30
-ammo["piercing-rounds-magazine"].magazine_size = 30
+if mods ["RampantFixed"] then
+    -- ЕМКОСТЬ ОБОИМЫ 10 --> 30
+    ammo["firearm-magazine"].magazine_size = 30
+    ammo["piercing-rounds-magazine"].magazine_size = 30
+end
 -- ##############################################################################################

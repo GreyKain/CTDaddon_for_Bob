@@ -5,11 +5,7 @@ local hand_crafting = settings.startup["CTD-hand-crafting"].value
 local lab = data.raw["lab"]
 local shortcut = data.raw["shortcut"]
 -- ##############################################################################################
-require("prototypes.mining-resource")
-require("prototypes.technology.tech-rename")
-require("prototypes.recipes.recipes-data-final-fixes")
-require("prototypes.technology.technology-final-fixes")
-require("prototypes.energy")
+require("prototypes.prorotypes-data-final-fix")
 
 if hand_crafting == "forbidden" or hand_crafting == "forbidden-and-hidden" then
 	require("mods.prohibition_manual_crafting")	-- мод на запрет ручного крафта (для мазохистов)

@@ -98,7 +98,7 @@ function CTDmod.lib.resource.add_mining_byproducts(byproducts_config)
                 results = {}
             }
         end
-        
+
         -- Убедимся, что results существует
         if not resource.minable.results then
             if resource.minable.result then
@@ -129,7 +129,7 @@ function CTDmod.lib.resource.add_mining_byproducts(byproducts_config)
         -- Корректируем вероятности основных продуктов
         if total_byproduct_probability > 0 and total_byproduct_probability <= 1 then
             local main_product_adjusted = false
-            
+
             for _, result in ipairs(resource.minable.results) do
                 if result.probability and result.probability == 1.0 then
                     -- Основной продукт с 100% вероятностью

@@ -1,6 +1,3 @@
 -- ##############################################################################################
-require("music.music")
-require("recipes.recipes-data")
-require("items.items-data")
-require("character-settings")
+require("fix.item-fix")
 -- ##############################################################################################
