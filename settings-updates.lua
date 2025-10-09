@@ -42,10 +42,10 @@ if mods ["bobassembly"] then
 end
 -- ##############################################################################################
 if mods ["bobenemies"] then
-    hide_setting("bool-setting", "bobmods-enemies-enableartifacts", false)
-    hide_setting("bool-setting", "bobmods-enemies-enablesmallartifacts", false)
-    hide_setting("bool-setting", "bobmods-enemies-enablenewartifacts", false)
-    hide_setting("bool-setting", "bobmods-enemies-aliensdropartifacts", false)
+    hide_setting("bool-setting", "bobmods-enemies-enableartifacts", true)
+    hide_setting("bool-setting", "bobmods-enemies-enablesmallartifacts", true)
+    hide_setting("bool-setting", "bobmods-enemies-enablenewartifacts", true)
+    hide_setting("bool-setting", "bobmods-enemies-aliensdropartifacts", true)
 end
 -- ##############################################################################################
 if mods ["bobmining"] then
