@@ -13,6 +13,7 @@ local modify = CTDmod.lib.recipe.modify
 local set_energy_required = CTDmod.lib.recipe.set_energy_required
 local item = data.raw.item
 local recipe = data.raw.recipe
+local tech = data.raw.technology
 -- ##############################################################################################
 -- ДОБАВЛЕНИЕ УГЛЯ В РЕЦЕПТ ПАТРОНОВ ДЛЯ ДРОБОВИКА
 -- ##############################################################################################

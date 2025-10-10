@@ -76,6 +76,8 @@ function CTDmod.lib.recipe.add_ingredient(recipe_name, ingredient)
     return added
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 function CTDmod.lib.recipe.add_ingredient_at_position(recipe_name, ingredient, position)
     local recipe = data.raw.recipe[recipe_name]
     if not recipe then error("Рецепт не найден!") end
@@ -96,6 +98,8 @@ function CTDmod.lib.recipe.add_ingredient_at_position(recipe_name, ingredient, p
     table.insert(recipe.ingredients, position or #recipe.ingredients + 1, normalized)
     return true
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Замена ингредиента в рецепте:
 function CTDmod.lib.recipe.replace_ingredient(recipe_name, old_ingredient, new_ingredient)
@@ -154,6 +158,8 @@ function CTDmod.lib.recipe.replace_ingredient(recipe_name, old_ingredient, new_i
     return replaced
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Удаление ингредиента из рецепта:
 function CTDmod.lib.recipe.remove_ingredient(recipe_name, ingredient_name)
     local recipe = data.raw.recipe[recipe_name]
@@ -197,6 +203,8 @@ function CTDmod.lib.recipe.remove_ingredient(recipe_name, ingredient_name)
     end
     return removed
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Изменение количества ингредиента:
 function CTDmod.lib.recipe.change_ingredient_amount(recipe_name, ingredient_name, new_amount)
@@ -247,6 +255,8 @@ function CTDmod.lib.recipe.change_ingredient_amount(recipe_name, ingredient_name
     return changed
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Добавляет технологическую зависимость для рецепта
 function CTDmod.lib.recipe.add_tech_unlock(recipe_name, technology_name)
     -- Проверяем существование рецепта
@@ -292,6 +302,8 @@ function CTDmod.lib.recipe.add_tech_unlock(recipe_name, technology_name)
     log("Рецепт '"..recipe_name.."' теперь требует технологию '"..technology_name.."'")
     return true
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Функция для замены технологии разблокировки конкретного рецепта
 function CTDmod.lib.recipe.change_tech_unlock(recipe_name, old_tech, new_tech)
@@ -348,6 +360,7 @@ function CTDmod.lib.recipe.change_tech_unlock(recipe_name, old_tech, new_tech)
     end
 end
 -- ##############################################################################################
+
 -- ##############################################################################################
 --- Удаляет технологическую зависимость для рецепта
 function CTDmod.lib.recipe.remove_tech_unlock(recipe_name, technology_name)
@@ -599,6 +612,8 @@ function CTDmod.lib.recipe.replace_ingredient_everywhere(old_item, new_item)
     end
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция клонирования рецепта с заменой параметров:
 function CTDmod.lib.recipe.duplicate(original_name, new_name, params)
     -- Проверка существования оригинального рецепта
@@ -714,6 +729,8 @@ function CTDmod.lib.recipe.duplicate(original_name, new_name, params)
     log("Создан рецепт '"..new_name.."' на основе '"..original_name.."'")
     return true
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Функция клонирования рецепта с заменой параметров и скрытием старого:
 function CTDmod.lib.recipe.duplicate_with_hide(original_name, new_name, params)
@@ -895,6 +912,8 @@ function CTDmod.lib.recipe.duplicate_with_byproduct(original_name, new_name, byp
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция клонирования параметров из одного рецепта в другой:
 function CTDmod.lib.recipe.copy_parameters(source_name, target_name, parameters_to_copy)
     -- Проверка существования рецептов
@@ -941,6 +960,8 @@ function CTDmod.lib.recipe.copy_parameters(source_name, target_name, parameters_
     log("Параметры успешно скопированы из '"..source_name.."' в '"..target_name.."'")
     return true
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Функция для удаления рецепта из игры:
 function CTDmod.lib.recipe.completely_remove(recipe_name)
@@ -1020,7 +1041,9 @@ function CTDmod.lib.recipe.completely_remove(recipe_name)
     log("Рецепт '"..recipe_name.."' полностью удалён из игры")
     return true
 end
+-- ##############################################################################################
 
+-- ##############################################################################################
 -- --- Версия с полным удалением объекта:
 -- function CTDmod.lib.recipe.completely_delete(recipe_name)
 --     CTDmod.lib.recipe.completely_remove(recipe_name)
@@ -1125,6 +1148,8 @@ function CTDmod.lib.recipe.completely_delete(recipe_name)
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Полностью удаляет рецепт (оригинальная функция с улучшениями)
 -- @param recipe_name string - Название рецепта для удаления
 -- @return boolean - Успешно ли выполнено удаление
@@ -1159,6 +1184,7 @@ function CTDmod.lib.recipe.completely_delete_2(recipe_name)
     return true
 end
 -- ##############################################################################################
+
 -- ##############################################################################################
 --- Функция для изменения параметров рецепта с учетом normal/expensive версий
 -- @param recipe_name Название рецепта (string)
@@ -1212,6 +1238,8 @@ function CTDmod.lib.recipe.modify(recipe_name, changes)
     log("Рецепт '"..recipe_name.."' успешно изменен")
     return true
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Устанавливает время крафта для рецепта (energy_required)
 -- @param recipe_name Название рецепта (string)

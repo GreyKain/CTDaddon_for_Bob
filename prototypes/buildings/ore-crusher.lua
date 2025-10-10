@@ -19,19 +19,19 @@ data:extend({
         name = "CTD-burner-ore-crusher",
         icons = {
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-base.png",
+                icon = "__angelsrefininggraphics__/graphics/icons/ore-crusher.png",
                 icon_size = 64,
                 icon_mipmaps = 4
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-mask.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-mask.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_glow = true,
                 tint = { r = 69 / 255, g = 91 / 255, b = 125 / 255, a = 1 }
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-highlights.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-highlights.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_light = true
@@ -48,19 +48,19 @@ data:extend({
         name = "CTD-burner-ore-crusher",
         icons = {
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-base.png",
+                icon = "__angelsrefininggraphics__/graphics/icons/ore-crusher.png",
                 icon_size = 64,
                 icon_mipmaps = 4
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-mask.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-mask.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_glow = true,
                 tint = { r = 69 / 255, g = 91 / 255, b = 125 / 255, a = 1 }
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-highlights.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-highlights.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_light = true
@@ -174,19 +174,19 @@ data:extend({
         name = "CTD-ore-crusher",
         icons = {
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-base.png",
+                icon = "__angelsrefininggraphics__/graphics/icons/ore-crusher.png",
                 icon_size = 64,
                 icon_mipmaps = 4
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-mask.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-mask.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_glow = true,
                 tint = { r = 166 / 255, g = 165 / 255, b = 46 / 255, a = 1 }
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-highlights.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-highlights.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_light = true
@@ -203,19 +203,19 @@ data:extend({
         name = "CTD-ore-crusher",
         icons = {
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-base.png",
+                icon = "__angelsrefininggraphics__/graphics/icons/ore-crusher.png",
                 icon_size = 64,
                 icon_mipmaps = 4
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-mask.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-mask.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_glow = true,
                 tint = { r = 166 / 255, g = 165 / 255, b = 46 / 255, a = 1 }
             },
             {
-                icon = "__CTDaddon_for_Bob__/graphics/icons/Angel/ore-crusher-icon-highlights.png",
+                icon = "__CTDaddon_for_Bob__/mods/reskins-angels_2.2.1/graphics/icons/refining/ore-crusher/ore-crusher-icon-highlights.png",
                 icon_size = 64,
                 icon_mipmaps = 4,
                 draw_as_light = true
