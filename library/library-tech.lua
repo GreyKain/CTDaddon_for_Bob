@@ -1,28 +1,33 @@
 -- ##############################################################################################
+local tech_raw = data.raw.technology
+-- ##############################################################################################
+
+-- ##############################################################################################
 if not CTDmod.lib.tech then CTDmod.lib.tech = {} end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Функция добавления зависимости технологии:
 function CTDmod.lib.tech.add_dependency(tech_name, dependency)
     -- Проверяем существование технологии
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
     -- Проверяем существование зависимости
-    if not data.raw.technology[dependency] then
+    if not tech_raw[dependency] then
         error("Технология-зависимость '"..dependency.."' не найдена!")
         return false
     end
 
     -- Инициализируем prerequisites если нет
-    local tech = data.raw.technology[tech_name]
-    if not tech.prerequisites then
-        tech.prerequisites = {}
+    if not tech_raw[tech_name].prerequisites then
+        tech_raw[tech_name].prerequisites = {}
     end
 
     -- Проверяем, нет ли уже такой зависимости
-    for _, prereq in ipairs(tech.prerequisites) do
+    for _, prereq in ipairs(tech_raw[tech_name].prerequisites) do
         if prereq == dependency then
             log("Технология '"..tech_name.."' уже зависит от '"..dependency.."'")
             return true
@@ -30,34 +35,35 @@ function CTDmod.lib.tech.add_dependency(tech_name, dependency)
     end
 
     -- Добавляем зависимость
-    table.insert(tech.prerequisites, dependency)
+    table.insert(tech_raw[tech_name].prerequisites, dependency)
     log("Добавлена зависимость: '"..tech_name.."' теперь требует '"..dependency.."'")
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция замены зависимости технологии:
 function CTDmod.lib.tech.replace_dependency(tech_name, old_dependency, new_dependency)
     -- Проверяем существование технологий
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
-    if not data.raw.technology[new_dependency] then
+    if not tech_raw[new_dependency] then
         error("Новая технология-зависимость '"..new_dependency.."' не найдена!")
         return false
     end
 
-    local tech = data.raw.technology[tech_name]
-    if not tech.prerequisites then
+    if not tech_raw[tech_name].prerequisites then
         error("У технологии '"..tech_name.."' нет зависимостей!")
         return false
     end
 
     -- Ищем и заменяем зависимость
     local found = false
-    for i, prereq in ipairs(tech.prerequisites) do
+    for i, prereq in ipairs(tech_raw[tech_name].prerequisites) do
         if prereq == old_dependency then
-            tech.prerequisites[i] = new_dependency
+            tech_raw[tech_name].prerequisites[i] = new_dependency
             found = true
         end
     end
@@ -71,17 +77,19 @@ function CTDmod.lib.tech.replace_dependency(tech_name, old_dependency, new_depen
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Заменяет или удаляет зависимости технологий
 -- @param old_tech string - Исходная технология (например "electronics")
 -- @param new_tech string - Новая технология (например "CTD-electronics")
 function CTDmod.lib.tech.replace_or_remove_dependencies(old_tech, new_tech)
     -- Проверяем существование новой технологии
-    local new_tech_exists = data.raw.technology[new_tech]
+    local new_tech_exists = tech_raw[new_tech]
     local replacements = 0
     local removals = 0
 
     -- Проходим по всем технологиям
-    for _, tech in pairs(data.raw.technology) do
+    for _, tech in pairs(tech_raw) do
         -- Обрабатываем прямые зависимости (prerequisites)
         if tech.prerequisites then
             local has_new_tech = false
@@ -125,25 +133,26 @@ function CTDmod.lib.tech.replace_or_remove_dependencies(old_tech, new_tech)
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция удаления зависимости технологии:
 function CTDmod.lib.tech.remove_dependency(tech_name, dependency)
     -- Проверяем существование технологии
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
-    local tech = data.raw.technology[tech_name]
-    if not tech.prerequisites then
+    if not tech_raw[tech_name].prerequisites then
         error("У технологии '"..tech_name.."' нет зависимостей!")
         return false
     end
 
     -- Удаляем зависимость
     local found = false
-    for i = #tech.prerequisites, 1, -1 do
-        if tech.prerequisites[i] == dependency then
-            table.remove(tech.prerequisites, i)
+    for i = #tech_raw[tech_name].prerequisites, 1, -1 do
+        if tech_raw[tech_name].prerequisites[i] == dependency then
+            table.remove(tech_raw[tech_name].prerequisites, i)
             found = true
         end
     end
@@ -154,13 +163,15 @@ function CTDmod.lib.tech.remove_dependency(tech_name, dependency)
     end
 
     -- Удаляем пустые таблицы зависимостей
-    if #tech.prerequisites == 0 then
-        tech.prerequisites = nil
+    if #tech_raw[tech_name].prerequisites == 0 then
+        tech_raw[tech_name].prerequisites = nil
     end
 
     log("Зависимость удалена: '"..tech_name.."' больше не требует '"..dependency.."'")
     return true
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Массовое добавление зависимостей:
 function CTDmod.lib.tech.mass_add_dependencies(tech_name, dependencies)
@@ -169,16 +180,18 @@ function CTDmod.lib.tech.mass_add_dependencies(tech_name, dependencies)
     end
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция для полного удаления технологии:
 function CTDmod.lib.tech.completely_delete(tech_name)
     -- Проверяем существование технологии
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
     -- 1. Удаляем технологию из зависимостей других технологий
-    for _, tech in pairs(data.raw.technology) do
+    for _, tech in pairs(tech_raw) do
         if tech.prerequisites then
             for i = #tech.prerequisites, 1, -1 do
                 if tech.prerequisites[i] == tech_name then
@@ -194,9 +207,8 @@ function CTDmod.lib.tech.completely_delete(tech_name)
     end
 
     -- 2. Обрабатываем связанные рецепты
-    local tech = data.raw.technology[tech_name]
-    if tech.effects then
-        for _, effect in ipairs(tech.effects) do
+    if tech_raw[tech_name].effects then
+        for _, effect in ipairs(tech_raw[tech_name].effects) do
             if effect.type == "unlock-recipe" then
                 local recipe = data.raw.recipe[effect.recipe]
                 if recipe then
@@ -221,39 +233,43 @@ function CTDmod.lib.tech.completely_delete(tech_name)
     end
 
     -- 3. Полностью удаляем технологию
-    data.raw.technology[tech_name] = nil
+    tech_raw[tech_name] = nil
 
     log("Технология '"..tech_name.."' полностью удалена из игры")
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция для отключения (но не удаления) технологии:
 function CTDmod.lib.tech.disable(tech_name)
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
-    data.raw.technology[tech_name].enabled = false
-    data.raw.technology[tech_name].hidden = true
+    tech_raw[tech_name].enabled = false
+    tech_raw[tech_name].hidden = true
 
     log("Технология '"..tech_name.."' отключена и скрыта")
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция для переноса всех разблокируемых рецептов:
 function CTDmod.lib.tech.transfer_effects(source_tech, target_tech)
-    if not data.raw.technology[source_tech] then
+    if not tech_raw[source_tech] then
         error("Исходная технология '"..source_tech.."' не найдена!")
         return false
     end
-    if not data.raw.technology[target_tech] then
+    if not tech_raw[target_tech] then
         error("Целевая технология '"..target_tech.."' не найдена!")
         return false
     end
 
-    local source = data.raw.technology[source_tech]
-    local target = data.raw.technology[target_tech]
+    local source = tech_raw[source_tech]
+    local target = tech_raw[target_tech]
 
     if source.effects then
         -- Инициализируем effects если нет
@@ -276,37 +292,39 @@ function CTDmod.lib.tech.transfer_effects(source_tech, target_tech)
     return true
 end
 -- ##############################################################################################
+
+-- ##############################################################################################
 --- Функция для пееименования технологии с возможностью подставления параметров в описание:
 function CTDmod.lib.tech.rename(tech_name, tech_new_name, params)
     -- Проверяем существование технологии
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         log("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
     -- Если новое имя не указано - только обновляем локализацию
     if not tech_new_name or tech_new_name == tech_name then
-        data.raw.technology[tech_name].localised_name = {"technology-name."..tech_name}
+        tech_raw[tech_name].localised_name = {"technology-name."..tech_name}
         if params ~= nil then
-            data.raw.technology[tech_name].localised_description = {"technology-description."..tech_name, params}
+            tech_raw[tech_name].localised_description = {"technology-description."..tech_name, params}
         else
-            data.raw.technology[tech_name].localised_description = {"technology-description."..tech_name}
+            tech_raw[tech_name].localised_description = {"technology-description."..tech_name}
         end
         return true
     end
 
     -- 1. Создаем полную копию технологии
-    local tech = table.deepcopy(data.raw.technology[tech_name])
-    tech.name = tech_new_name
-    tech.localised_name = {"technology-name."..tech_new_name}
+    local tech_copy = table.deepcopy(tech_raw[tech_name])
+    tech_copy.name = tech_new_name
+    tech_copy.localised_name = {"technology-name."..tech_new_name}
     if params ~= nil then
-        tech.localised_description = {"technology-description."..tech_new_name, params}
+        tech_copy.localised_description = {"technology-description."..tech_new_name, params}
     else
-        tech.localised_description = {"technology-description."..tech_new_name}
+        tech_copy.localised_description = {"technology-description."..tech_new_name}
     end
 
     -- 2. Обновляем все зависимости в других технологиях
-    for _, other_tech in pairs(data.raw.technology) do
+    for _, other_tech in pairs(tech_raw) do
         if other_tech.prerequisites then
             for i, prereq in ipairs(other_tech.prerequisites) do
                 if prereq == tech_name then
@@ -337,8 +355,8 @@ function CTDmod.lib.tech.rename(tech_name, tech_new_name, params)
     end
 
     -- 4. Обновляем эффекты технологий
-    if tech.effects then
-        for _, effect in ipairs(tech.effects) do
+    if tech_copy.effects then
+        for _, effect in ipairs(tech_copy.effects) do
             if effect.type == "unlock-recipe" and effect.recipe then
                 local recipe = data.raw.recipe[effect.recipe]
                 if recipe then
@@ -349,12 +367,14 @@ function CTDmod.lib.tech.rename(tech_name, tech_new_name, params)
     end
 
     -- 5. Добавляем новую технологию перед удалением старой
-    data.raw.technology[tech_new_name] = tech
-    data.raw.technology[tech_name] = nil
+    tech_raw[tech_new_name] = tech_copy
+    tech_raw[tech_name] = nil
 
-    log("Технология '"..tech_name.."' переименована в '"..tech_new_name.."' со всеми связями")
+    log("Технология '"..tech_name.."' перекочевала в '"..tech_new_name.."' со всеми потрохами")
     return true
 end
+-- ##############################################################################################
+
 -- ##############################################################################################
 --- Добавляем научный пакет к технологии
 -- @param tech_name Название технологии
@@ -362,14 +382,13 @@ end
 -- @param amount Количество (по умолчанию 1)
 function CTDmod.lib.tech.add_science_pack(tech_name, science_pack, amount)
     amount = amount or 1
-    local tech = data.raw.technology[tech_name]
-    if not tech then return false end
+    if not tech_raw[tech_name] then return false end
 
-    tech.unit = tech.unit or {}
-    tech.unit.ingredients = tech.unit.ingredients or {}
+    tech_raw[tech_name].unit = tech_raw[tech_name].unit or {}
+    tech_raw[tech_name].unit.ingredients = tech_raw[tech_name].unit.ingredients or {}
 
     -- Проверяем, есть ли уже такой пакет
-    for _, ingredient in pairs(tech.unit.ingredients) do
+    for _, ingredient in pairs(tech_raw[tech_name].unit.ingredients) do
         if (ingredient[1] or ingredient.name) == science_pack then
             ingredient.amount = (ingredient.amount or 1) + amount
             return true
@@ -377,10 +396,12 @@ function CTDmod.lib.tech.add_science_pack(tech_name, science_pack, amount)
     end
 
     -- Добавляем новый пакет
-    table.insert(tech.unit.ingredients, {science_pack, amount})
+    table.insert(tech_raw[tech_name].unit.ingredients, {science_pack, amount})
     return true
 end
+-- ##############################################################################################
 
+-- ##############################################################################################
 --- Удаляем научный пакет из технологии
 -- @param tech_name Название технологии
 -- @param science_pack Название научного пакета
@@ -388,18 +409,17 @@ end
 -- @param amount Количество для удаления (по умолчанию 1)
 function CTDmod.lib.tech.remove_science_pack(tech_name, science_pack, remove_all, amount)
     amount = amount or 1
-    local tech = data.raw.technology[tech_name]
-    if not tech or not tech.unit or not tech.unit.ingredients then return false end
+    if not tech_raw[tech_name] or not tech_raw[tech_name].unit or not tech_raw[tech_name].unit.ingredients then return false end
 
-    for i, ingredient in pairs(tech.unit.ingredients) do
+    for i, ingredient in pairs(tech_raw[tech_name].unit.ingredients) do
         local pack_name = ingredient[1] or ingredient.name
         if pack_name == science_pack then
             if remove_all then
-                table.remove(tech.unit.ingredients, i)
+                table.remove(tech_raw[tech_name].unit.ingredients, i)
             else
                 local new_amount = (ingredient.amount or 1) - amount
                 if new_amount <= 0 then
-                    table.remove(tech.unit.ingredients, i)
+                    table.remove(tech_raw[tech_name].unit.ingredients, i)
                 else
                     ingredient.amount = new_amount
                 end
@@ -409,20 +429,21 @@ function CTDmod.lib.tech.remove_science_pack(tech_name, science_pack, remove_all
     end
     return false
 end
+-- ##############################################################################################
 
+-- ##############################################################################################
 --- Заменяем один научный пакет на другой
 -- @param tech_name Название технологии
 -- @param old_pack Название заменяемого пакета
 -- @param new_pack Название нового пакета
 -- @param new_amount Количество нового пакета (nil = сохранить старое количество)
 function CTDmod.lib.tech.replace_science_pack(tech_name, old_pack, new_pack, new_amount)
-    local tech = data.raw.technology[tech_name]
-    if not tech or not tech.unit or not tech.unit.ingredients then return false end
+    if not tech_raw[tech_name] or not tech_raw[tech_name].unit or not tech_raw[tech_name].unit.ingredients then return false end
 
     local found = false
     local new_ingredients = {}
 
-    for _, ingredient in pairs(tech.unit.ingredients) do
+    for _, ingredient in pairs(tech_raw[tech_name].unit.ingredients) do
         local pack_name = ingredient[1] or ingredient.name
         local amount = ingredient.amount or ingredient[2] or 1
 
@@ -438,37 +459,39 @@ function CTDmod.lib.tech.replace_science_pack(tech_name, old_pack, new_pack, new
     end
 
     if found then
-        tech.unit.ingredients = new_ingredients
+        tech_raw[tech_name].unit.ingredients = new_ingredients
     end
 
     return found
 end
+-- ##############################################################################################
 
+-- ##############################################################################################
 --- Полностью заменяем все научные пакеты технологии
 -- @param tech_name Название технологии
 -- @param new_ingredients Таблица новых ингредиентов в формате {{"pack1", amount}, {"pack2", amount}}
 function CTDmod.lib.tech.set_science_packs(tech_name, new_ingredients)
-    local tech = data.raw.technology[tech_name]
-    if not tech then return false end
+    if not tech_raw[tech_name] then return false end
 
-    tech.unit = tech.unit or {}
-    tech.unit.ingredients = {}
+    tech_raw[tech_name].unit = tech_raw[tech_name].unit or {}
+    tech_raw[tech_name].unit.ingredients = {}
 
     for _, pack in pairs(new_ingredients) do
-        table.insert(tech.unit.ingredients, {pack[1], pack[2]})
+        table.insert(tech_raw[tech_name].unit.ingredients, {pack[1], pack[2]})
     end
     return true
 end
+-- ##############################################################################################
 
+-- ##############################################################################################
 --- Получаем список научных пакетов технологии
 -- @param tech_name Название технологии
 -- @return Таблица пакетов или nil
 function CTDmod.lib.tech.get_science_packs(tech_name)
-    local tech = data.raw.technology[tech_name]
-    if not tech or not tech.unit or not tech.unit.ingredients then return nil end
+    if not tech_raw[tech_name] or not tech_raw[tech_name].unit or not tech_raw[tech_name].unit.ingredients then return nil end
 
     local result = {}
-    for _, ingredient in pairs(tech.unit.ingredients) do
+    for _, ingredient in pairs(tech_raw[tech_name].unit.ingredients) do
         table.insert(result, {
             name = ingredient[1] or ingredient.name,
             amount = ingredient.amount or 1
@@ -476,12 +499,12 @@ function CTDmod.lib.tech.get_science_packs(tech_name)
     end
     return result
 end
--- -- ##############################################################################################
+-- ##############################################################################################
 
 -- ##############################################################################################
 --- Полная замена научного пакета во всей игре с дублированием рецепта и скрытием старого
 -- @param old_pack string - Название заменяемого пакета ("automation-science-pack")
--- @param new_pack string - Название нового пакета ("CTD-science-pack-grey")
+-- @param new_pack string - Название нового пакета ("CTD-scientific-analyzer-grey")
 function CTDmod.lib.tech.replace_science_pack_globally(old_pack, new_pack)
     local replacements = 0
 
@@ -536,8 +559,8 @@ function CTDmod.lib.tech.replace_science_pack_globally(old_pack, new_pack)
     end
 
     -- 0.2. Дублируем технологию разблокировки если нужно
-    local old_tech = data.raw.technology[old_pack]
-    if old_tech and not data.raw.technology[new_pack] then
+    local old_tech = tech_raw[old_pack]
+    if old_tech and not tech_raw[new_pack] then
         local new_tech = table.deepcopy(old_tech)
         new_tech.name = new_pack
         new_tech.localised_name = {"technology-name."..new_pack}
@@ -570,9 +593,9 @@ function CTDmod.lib.tech.replace_science_pack_globally(old_pack, new_pack)
         data.raw.recipe[old_pack].order = "zzz"
     end
 
-    if data.raw.technology[old_pack] then
-        data.raw.technology[old_pack].hidden = true
-        data.raw.technology[old_pack].enabled = false
+    if tech_raw[old_pack] then
+        tech_raw[old_pack].hidden = true
+        tech_raw[old_pack].enabled = false
     end
 
     local function replace_in_ingredient(ingredient)
@@ -618,7 +641,7 @@ function CTDmod.lib.tech.replace_science_pack_globally(old_pack, new_pack)
     end
 
     -- 1. Замена в технологиях
-    for tech_name, tech in pairs(data.raw.technology) do
+    for tech_name, tech in pairs(tech_raw) do
         if tech.unit and tech.unit.ingredients then
             local new_ingredients = {}
             for _, ingredient in ipairs(tech.unit.ingredients) do
@@ -721,7 +744,7 @@ function CTDmod.lib.tech.replace_science_pack_globally(old_pack, new_pack)
     end
 
     -- 5. Замена в эффектах технологий
-    for tech_name, tech in pairs(data.raw.technology) do
+    for tech_name, tech in pairs(tech_raw) do
         if tech.effects then
             for _, effect in ipairs(tech.effects) do
                 if effect.type == "unlock-recipe" and effect.recipe == old_pack then
@@ -756,33 +779,31 @@ end
 -- @return boolean - Успешно ли выполнено удаление
 function CTDmod.lib.tech.remove_recipe_effect(tech_name, recipe_name)
     -- Проверяем существование технологии
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
-    local tech = data.raw.technology[tech_name]
-
     -- Проверяем наличие эффектов
-    if not tech.effects then
+    if not tech_raw[tech_name].effects then
         log("У технологии '"..tech_name.."' нет эффектов для удаления")
         return false
     end
 
     -- Ищем и удаляем эффект разблокировки указанного рецепта
     local found = false
-    for i = #tech.effects, 1, -1 do
-        local effect = tech.effects[i]
+    for i = #tech_raw[tech_name].effects, 1, -1 do
+        local effect = tech_raw[tech_name].effects[i]
         if effect.type == "unlock-recipe" and effect.recipe == recipe_name then
-            table.remove(tech.effects, i)
+            table.remove(tech_raw[tech_name].effects, i)
             found = true
             log("Удален эффект разблокировки рецепта '"..recipe_name.."' из технологии '"..tech_name.."'")
         end
     end
 
     -- Если эффектов не осталось, удаляем пустую таблицу
-    if #tech.effects == 0 then
-        tech.effects = nil
+    if #tech_raw[tech_name].effects == 0 then
+        tech_raw[tech_name].effects = nil
         log("Все эффекты удалены из технологии '"..tech_name.."'")
     end
 
@@ -801,15 +822,14 @@ end
 -- @param recipe_names table - Таблица названий рецептов для удаления
 -- @return boolean - Успешно ли выполнено удаление
 function CTDmod.lib.tech.remove_recipe_effects(tech_name, recipe_names)
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
-    local tech = data.raw.technology[tech_name]
     local removed_count = 0
 
-    if not tech.effects then
+    if not tech_raw[tech_name].effects then
         log("У технологии '"..tech_name.."' нет эффектов для удаления")
         return false
     end
@@ -821,18 +841,18 @@ function CTDmod.lib.tech.remove_recipe_effects(tech_name, recipe_names)
     end
 
     -- Удаляем эффекты
-    for i = #tech.effects, 1, -1 do
-        local effect = tech.effects[i]
+    for i = #tech_raw[tech_name].effects, 1, -1 do
+        local effect = tech_raw[tech_name].effects[i]
         if effect.type == "unlock-recipe" and recipes_to_remove[effect.recipe] then
-            table.remove(tech.effects, i)
+            table.remove(tech_raw[tech_name].effects, i)
             removed_count = removed_count + 1
             log("Удален эффект разблокировки рецепта '"..effect.recipe.."' из технологии '"..tech_name.."'")
         end
     end
 
     -- Если эффектов не осталось, удаляем пустую таблицу
-    if tech.effects and #tech.effects == 0 then
-        tech.effects = nil
+    if tech_raw[tech_name].effects and #tech_raw[tech_name].effects == 0 then
+        tech_raw[tech_name].effects = nil
     end
 
     log("Удалено "..removed_count.." эффектов из технологии '"..tech_name.."'")
@@ -845,16 +865,15 @@ end
 -- @param tech_name string - Название технологии
 -- @return table - Таблица рецептов или nil
 function CTDmod.lib.tech.get_recipe_effects(tech_name)
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return nil
     end
 
-    local tech = data.raw.technology[tech_name]
     local recipes = {}
 
-    if tech.effects then
-        for _, effect in ipairs(tech.effects) do
+    if tech_raw[tech_name].effects then
+        for _, effect in ipairs(tech_raw[tech_name].effects) do
             if effect.type == "unlock-recipe" then
                 table.insert(recipes, effect.recipe)
             end
@@ -871,15 +890,13 @@ end
 -- @param recipe_name string - Название рецепта
 -- @return boolean - Содержит ли технология эффект
 function CTDmod.lib.tech.has_recipe_effect(tech_name, recipe_name)
-    if not data.raw.technology[tech_name] then
+    if not tech_raw[tech_name] then
         error("Технология '"..tech_name.."' не найдена!")
         return false
     end
 
-    local tech = data.raw.technology[tech_name]
-
-    if tech.effects then
-        for _, effect in ipairs(tech.effects) do
+    if tech_raw[tech_name].effects then
+        for _, effect in ipairs(tech_raw[tech_name].effects) do
             if effect.type == "unlock-recipe" and effect.recipe == recipe_name then
                 return true
             end
@@ -908,7 +925,7 @@ function CTDmod.lib.tech.remove_science_pack_if_another_exists(search_pack, remo
     end
 
     -- Проходим по всем технологиям
-    for tech_name, tech in pairs(data.raw.technology) do
+    for tech_name, tech in pairs(tech_raw) do
         if tech.unit and tech.unit.ingredients then
             local has_search_pack = false
             local has_remove_pack = false
@@ -998,7 +1015,7 @@ function CTDmod.lib.tech.remove_science_pack_if_another_not_exists(search_pack, 
     end
 
     -- Проходим по всем технологиям
-    for tech_name, tech in pairs(data.raw.technology) do
+    for tech_name, tech in pairs(tech_raw) do
         if tech.unit and tech.unit.ingredients then
             local has_search_pack = false
             local has_remove_pack = false
@@ -1088,7 +1105,7 @@ function CTDmod.lib.tech.replace_science_pack_if_another_exists(search_pack, old
     end
 
     -- Проходим по всем технологиям
-    for tech_name, tech in pairs(data.raw.technology) do
+    for tech_name, tech in pairs(tech_raw) do
         if tech.unit and tech.unit.ingredients then
             local has_search_pack = false
             local has_old_pack = false

@@ -11,6 +11,7 @@ local completely_remove = CTDmod.lib.recipe.completely_remove
 local completely_delete = CTDmod.lib.recipe.completely_delete
 local modify = CTDmod.lib.recipe.modify
 local set_energy_required = CTDmod.lib.recipe.set_energy_required
+local gun = data.raw.gun
 local item = data.raw.item
 local recipe = data.raw.recipe
 local tech = data.raw.technology
@@ -72,7 +73,7 @@ if mods ["boblogistics"] then
           add_ingredient("aai-basic-loader", {"electric-motor", 4})
     end
 	data.raw.recipe["bob-basic-transport-belt"].enabled = false
-	add_tech_unlock("bob-basic-transport-belt", "CTD-logistics-0")
+	add_tech_unlock("bob-basic-transport-belt", "logistics-0")
     if mods ["aai-industry"] then
         replace_ingredient("bob-basic-transport-belt", "iron-plate", "iron-stick")
         add_ingredient("bob-basic-transport-belt", "motor")
@@ -160,10 +161,16 @@ add_ingredient_at_position("rail-chain-signal", "small-lamp", 1)
 -- ##############################################################################################
 
 -- ##############################################################################################
-if mods ["bobwarfare"] and mods ["bobplates"] then
+if recipe["bob-sniper-turret-1"] and gun["bob-sniper-rifle"] and item["bob-steel-gear-wheel"] then
 	replace_ingredient("bob-sniper-turret-1", "iron-gear-wheel", "bob-steel-gear-wheel")
 	replace_ingredient("bob-sniper-turret-1", "iron-plate", "steel-plate")
     add_ingredient("bob-sniper-turret-1", "bob-sniper-rifle")
+end
+-- ##############################################################################################
+
+-- ##############################################################################################
+if tech["burner-mechanics"] then
+    add_tech_unlock("iron-gear-wheel", "burner-mechanics")
 end
 -- ##############################################################################################
 -- ЗАМЕНА ВАНИЛЬНОЙ ДРЕВЕСИНЫ НА ДЕРЕВО ПРИ МАЙНИНГЕ
