@@ -10,4 +10,3 @@ if mods ["RampantFixed"] then
     ammo["piercing-rounds-magazine"].magazine_size = 30
 end
 -- ##############################################################################################
-

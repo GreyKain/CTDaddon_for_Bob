@@ -4,6 +4,7 @@ local add_ingredient_at_position = CTDmod.lib.recipe.add_ingredient_at_position
 local replace_ingredient = CTDmod.lib.recipe.replace_ingredient
 local replace_ingredient_everywhere = CTDmod.lib.recipe.replace_ingredient_everywhere
 local remove_ingredient = CTDmod.lib.recipe.remove_ingredient
+local change_ingredient_amount = CTDmod.lib.recipe.change_ingredient_amount
 local add_tech_unlock = CTDmod.lib.recipe.add_tech_unlock
 local change_tech_unlock = CTDmod.lib.recipe.change_tech_unlock
 local duplicate = CTDmod.lib.recipe.duplicate
@@ -15,6 +16,7 @@ local gun = data.raw.gun
 local item = data.raw.item
 local recipe = data.raw.recipe
 local tech = data.raw.technology
+local assembler = data.raw["assembling-machine"]
 -- ##############################################################################################
 -- ДОБАВЛЕНИЕ УГЛЯ В РЕЦЕПТ ПАТРОНОВ ДЛЯ ДРОБОВИКА
 -- ##############################################################################################
@@ -58,9 +60,9 @@ if mods ["bobplates"] and mods ["space-age"] then
 end
 modify("carbon", {results = {{type = "item", name = "carbon", amount = 4}}})
 -- ##############################################################################################
-
+-- КРАФТ ПЕСКА ЧЕРЕЗ НОВЫЕ ДРОБИЛКИ
 -- ##############################################################################################
-if item["sand"] and recipe["sand"] then
+if item["sand"] and recipe["sand"] and assembler["CTD-burner-ore-crusher"] then
     recipe["sand"].category = "CTD-ore-refining-t1"
     replace_ingredient("sand", "stone", "CTD-crushed-stone")
 end
@@ -88,6 +90,13 @@ end
 -- ##############################################################################################
 
 -- ##############################################################################################
+if item["crushed-stone"] then
+    replace_ingredient("stone-brick", "stone", "crushed-stone")
+    change_ingredient_amount("stone-brick", "crushed-stone", 4)
+end
+-- ##############################################################################################
+
+-- ##############################################################################################
 replace_ingredient("stone-furnace", "stone", {name = "stone-brick", amount = 3})
 if mods ["bobplates"] then
     replace_ingredient("bob-stone-mixing-furnace", "stone", {name = "stone-brick", amount = 3})
@@ -107,12 +116,15 @@ replace_ingredient("gun-turret", "iron-plate", {name = "submachine-gun", amount 
 
 -- ##############################################################################################
 if mods ["aai-industry"] then
-    add_ingredient("logistic-science-pack", {"automation-science-pack", 2})
     if mods ["bobelectronics"] then
         add_ingredient("electronic-circuit", "bob-insulated-cable")
         replace_ingredient("lab", "bob-basic-circuit-board", "electronic-circuit")
     end
 end
+-- ##############################################################################################
+
+-- ##############################################################################################
+-- add_ingredient("logistic-science-pack", {"automation-science-pack", 2})
 -- ##############################################################################################
 
 -- ##############################################################################################

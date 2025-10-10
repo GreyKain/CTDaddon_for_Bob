@@ -8,29 +8,11 @@ local replace_or_remove_dependencies = CTDmod.lib.tech.replace_or_remove_depende
 local transfer_effects = CTDmod.lib.tech.transfer_effects
 local disable = CTDmod.lib.tech.disable
 local completely_delete = CTDmod.lib.tech.completely_delete
-local replace_science_pack_globally = CTDmod.lib.tech.replace_science_pack_globally
 local remove_recipe_effect = CTDmod.lib.tech.remove_recipe_effect
 local remove_recipe_effects = CTDmod.lib.tech.remove_recipe_effects
 local get_recipe_effects = CTDmod.lib.tech.get_recipe_effects
 local has_recipe_effect = CTDmod.lib.tech.has_recipe_effect
 local remove_science_pack = CTDmod.lib.tech.remove_science_pack_if_another_exists
--- ##############################################################################################
-
--- ##############################################################################################
--- replace_science_pack_globally("automation-science-pack", "CTD-scientific-analyzer-grey")
--- tech["CTD-scientific-analyzer-grey"].icons = {{icon = "__CTDaddon_for_Bob__/graphics/icons/science/scientific-analyzer-grey-256.png", icon_size = 256, mipmap = 3}}
--- replace_science_pack_globally("military-science-pack", "CTD-scientific-analyzer-red")
--- tech["CTD-scientific-analyzer-red"].icons = {{icon = "__CTDaddon_for_Bob__/graphics/icons/science/scientific-analyzer-red-256.png", icon_size = 256, mipmap = 3}}
--- replace_science_pack_globally("logistic-science-pack", "CTD-scientific-analyzer-green")
--- tech["CTD-scientific-analyzer-green"].icons = {{icon = "__CTDaddon_for_Bob__/graphics/icons/science/scientific-analyzer-green-256.png", icon_size = 256, mipmap = 3}}
--- replace_science_pack_globally("chemical-science-pack", "CTD-scientific-analyzer-blue")
--- tech["CTD-scientific-analyzer-blue"].icons = {{icon = "__CTDaddon_for_Bob__/graphics/icons/science/scientific-analyzer-blue-256.png", icon_size = 256, mipmap = 3}}
--- replace_science_pack_globally("production-science-pack", "CTD-scientific-analyzer-orange")
--- tech["CTD-scientific-analyzer-orange"].icons = {{icon = "__CTDaddon_for_Bob__/graphics/icons/science/scientific-analyzer-orange-256.png", icon_size = 256, mipmap = 3}}
--- replace_science_pack_globally("space-science-pack", "CTD-scientific-analyzer-white")
--- tech["CTD-scientific-analyzer-white"].icons = {{icon = "__CTDaddon_for_Bob__/graphics/icons/science/scientific-analyzer-white-256.png", icon_size = 256, mipmap = 3}}
--- replace_science_pack_globally("utility-science-pack", "CTD-scientific-analyzer-yellow")
--- tech["CTD-scientific-analyzer-yellow"].icons = {{icon = "__CTDaddon_for_Bob__/graphics/icons/science/scientific-analyzer-yellow-256.png", icon_size = 256, mipmap = 3}}
 -- ##############################################################################################
 
 -- ##############################################################################################
@@ -73,7 +55,7 @@ end
 -- ##############################################################################################
 
 -- ##############################################################################################
-remove_science_pack("logistic-science-pack", "automation-science-pack")
+-- remove_science_pack("logistic-science-pack", "automation-science-pack")
 -- ##############################################################################################
 
 -- ##############################################################################################
